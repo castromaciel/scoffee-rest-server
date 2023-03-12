@@ -29,5 +29,6 @@ In this project, you can run the following scripts:
 
 ## Base Dependencies
 
+- [cors](https://github.com/expressjs/cors#readme) for providing a Connect/Express middleware.
 - [dotenv](https://github.com/motdotla/dotenv#readme) loads environment variables from a .env file into process.env.
 - [express](https://expressjs.com/) framework for Node.js.

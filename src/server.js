@@ -1,10 +1,14 @@
 import cors from 'cors'
 import express from 'express'
+import { usersRoutes } from './routes/index.js'
 
 export class Server {
   constructor() {
     this.app = express()
     this.PORT = process.env.PORT || 8080
+    this.paths = {
+      users: '/api/users'
+    }
 
     this.middlewares()
 
@@ -14,27 +18,13 @@ export class Server {
   middlewares() {
     this.app.use(cors())
 
-    this.app.use(express.static('public'))
-
     this.app.use(express.json())
+
+    this.app.use(express.static('public'))
   }
 
   routes() {
-    this.app.get('/api', (req, res) => {
-      res.json('Obtuviste tu pizza')
-    })
-
-    this.app.post('/api', (req, res) => {
-      res.json('Pizza pedida')
-    })
-
-    this.app.delete('/api', (req, res) => {
-      res.json('Eliminaste tu pedido')
-    })
-
-    this.app.put('/api', (req, res) => {
-      res.json('Pedido editado')
-    })
+    this.app.use(this.paths.users, usersRoutes)
   }
 
   listen() {
