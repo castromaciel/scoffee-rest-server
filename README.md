@@ -8,6 +8,44 @@
 
 </div>
 
+API Rest Server about coffee shop.
+
+## Diagram 
+
+```mermaid
+---
+title: Database Super-coffee
+---
+classDiagram
+  class Users
+  Users : String _id
+  Users : String name
+  Users : String email
+  Users : String - crypt password 
+  Users : Boolean isGoogleAuthent
+  Users : String role
+  Users : String img
+  Users : String status
+
+  class Categories
+  Categories : String _id
+  Categories : String name
+  Categories : ObjectId user
+
+
+  class Products
+  Products : String _id
+  Products : String name
+  Products : Number price
+  Products : ObjectId category
+  Products : Boolean isAvailable
+  Products : ObjectId user
+
+  direction LR
+  Users --o Categories
+  Categories --o Products
+  Users --o Products
+```
 ### Install dependencies:
 
 ```
@@ -32,3 +70,4 @@ In this project, you can run the following scripts:
 - [cors](https://github.com/expressjs/cors#readme) for providing a Connect/Express middleware.
 - [dotenv](https://github.com/motdotla/dotenv#readme) loads environment variables from a .env file into process.env.
 - [express](https://expressjs.com/) framework for Node.js.
+
