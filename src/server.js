@@ -1,3 +1,4 @@
+import cors from 'cors'
 import express from 'express'
 
 export class Server {
@@ -11,6 +12,8 @@ export class Server {
   }
 
   middlewares() {
+    this.app.use(cors())
+
     this.app.use(express.static('public'))
 
     this.app.use(express.json())
