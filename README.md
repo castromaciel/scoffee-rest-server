@@ -25,7 +25,7 @@ classDiagram
   Users : Boolean isGoogleAuthent
   Users : String role
   Users : String img
-  Users : String status
+  Users : Boolean status
 
   class Categories
   Categories : String _id
@@ -46,6 +46,9 @@ classDiagram
   Categories --o Products
   Users --o Products
 ```
+
+## Development
+
 ### Install dependencies:
 
 ```
@@ -70,4 +73,5 @@ In this project, you can run the following scripts:
 - [cors](https://github.com/expressjs/cors#readme) for providing a Connect/Express middleware.
 - [dotenv](https://github.com/motdotla/dotenv#readme) loads environment variables from a .env file into process.env.
 - [express](https://expressjs.com/) framework for Node.js.
+- [mongoose](https://mongoosejs.com/) mongodb object modeling for node.js.
 
