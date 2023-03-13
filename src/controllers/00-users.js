@@ -6,7 +6,7 @@ export const getUsers = (req, res) => {
   const { q: queries, username = '' } = req.query
 
   res.json({
-    message: 'Succes getting users',
+    message: 'Success getting users',
     queries,
     username
   })
@@ -19,24 +19,27 @@ export const getUser = (req = request, res = response) => {
   })
 }
 
-export const createUser = async (req, res) => {
+export const createUser = async (req = request, res = response) => {
   const {
     name, username, email, password, role
   } = req.body
+
   const user = new User({
     name, username, email, password, role
   })
 
-  // Verify email exists
+  const isEmailExist = await User.findOne({ email })
 
-  // Encrypt password
+  if (isEmailExist) {
+    return res.status(400).json({
+      message: `Email ${email} already exists`
+    })
+  }
   user.password = cryptPassword(password)
-
-  // Create user
 
   try {
     await user.save()
-    res.json({
+    return res.json({
       message: `${username} created successfully`,
       user: {
         name,
@@ -45,7 +48,7 @@ export const createUser = async (req, res) => {
       }
     })
   } catch (error) {
-    res.json({
+    return res.json({
       error
     })
   }

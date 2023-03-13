@@ -1,5 +1,5 @@
 <h1 align="center">
-  Course NodeJs
+  Super Coffee
 </h1>
 
 <div align="center">
@@ -75,5 +75,6 @@ In this project, you can run the following scripts:
 - [cors](https://github.com/expressjs/cors#readme) for providing a Connect/Express middleware.
 - [dotenv](https://github.com/motdotla/dotenv#readme) loads environment variables from a .env file into process.env.
 - [express](https://expressjs.com/) framework for Node.js.
+- [express-validator](https://express-validator.github.io/docs) to validate fields.
 - [mongoose](https://mongoosejs.com/) mongodb object modeling for node.js.
 
