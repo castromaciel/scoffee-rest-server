@@ -20,6 +20,7 @@ classDiagram
   class Users
   Users : String _id
   Users : String name
+  Users : String username
   Users : String email
   Users : String - crypt password 
   Users : Boolean isGoogleAuthent
@@ -70,6 +71,7 @@ In this project, you can run the following scripts:
 
 ## Base Dependencies
 
+- [bcryptjs](https://github.com/dcodeIO/bcrypt.js#readme) to hash and salt passwords securely.
 - [cors](https://github.com/expressjs/cors#readme) for providing a Connect/Express middleware.
 - [dotenv](https://github.com/motdotla/dotenv#readme) loads environment variables from a .env file into process.env.
 - [express](https://expressjs.com/) framework for Node.js.

@@ -1,4 +1,6 @@
 import { request, response } from 'express'
+import { cryptPassword } from '../helpers/cryptPassword.js'
+import { User } from '../models/index.js'
 
 export const getUsers = (req, res) => {
   const { q: queries, username = '' } = req.query
@@ -17,12 +19,36 @@ export const getUser = (req = request, res = response) => {
   })
 }
 
-export const createUser = (req, res) => {
-  const data = req.body
-
-  res.json({
-    message: `${data.username} created successfully`
+export const createUser = async (req, res) => {
+  const {
+    name, username, email, password, role
+  } = req.body
+  const user = new User({
+    name, username, email, password, role
   })
+
+  // Verify email exists
+
+  // Encrypt password
+  user.password = cryptPassword(password)
+
+  // Create user
+
+  try {
+    await user.save()
+    res.json({
+      message: `${username} created successfully`,
+      user: {
+        name,
+        username,
+        email
+      }
+    })
+  } catch (error) {
+    res.json({
+      error
+    })
+  }
 }
 
 export const deleteUser = (req, res) => {
