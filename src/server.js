@@ -1,5 +1,6 @@
 import cors from 'cors'
 import express from 'express'
+import { dbConnection } from './database/config.js'
 import { usersRoutes } from './routes/index.js'
 
 export class Server {
@@ -9,10 +10,15 @@ export class Server {
     this.paths = {
       users: '/api/users'
     }
+    this.connectionDb()
 
     this.middlewares()
 
     this.routes()
+  }
+
+  async connectionDb() {
+    await dbConnection()
   }
 
   middlewares() {
@@ -29,7 +35,7 @@ export class Server {
 
   listen() {
     this.app.listen(this.PORT, () => {
-      console.log(`listening on port ${this.PORT}`)
+      console.log(`Listening on port ${this.PORT}`)
     })
   }
 }
