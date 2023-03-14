@@ -2,13 +2,23 @@ import { request, response } from 'express'
 import { cryptPassword } from '../helpers/cryptPassword.js'
 import { User } from '../models/index.js'
 
-export const getUsers = (req = request, res = response) => {
-  const { q: queries, username = '' } = req.query
+export const getUsers = async (req, res = response) => {
+  const { limit = 5, from = 0 } = req.query
+  const queryFilter = {
+    status: true
+  }
+
+  const [users, total] = await Promise.all([
+    User.countDocuments(queryFilter),
+    User.find(queryFilter)
+      .limit(Number(limit))
+      .skip(Number(from))
+  ])
 
   res.json({
     message: 'Success getting users',
-    queries,
-    username
+    total,
+    users
   })
 }
 
@@ -50,7 +60,7 @@ export const deleteUser = (req, res) => {
 export const updateUser = async (req = request, res = response) => {
   const { id } = req.params
   const {
-    password, isGoogleAuthent, email, ...rest
+    _id, password, isGoogleAuthent, email, ...rest
   } = req.body
 
   // validate id with db

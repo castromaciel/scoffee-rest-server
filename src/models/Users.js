@@ -31,7 +31,8 @@ const UserSchema = new Schema({
     default: true
   },
   isGoogleAuthent: {
-    type: Boolean
+    type: Boolean,
+    default: false
   }
 })
 
