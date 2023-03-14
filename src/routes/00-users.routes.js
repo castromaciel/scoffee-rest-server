@@ -24,12 +24,25 @@ router.post(
   ],
   createUser
 )
-router.put('/:id', [
-  check('id', 'Id is not valid').isMongoId(),
-  check('id').custom(isUserIdExist),
-  check('role').custom(isValidRole),
-  validateFields
-], updateUser)
-router.delete('/', deleteUser)
+router.put(
+  '/:id',
+  [
+    check('id', 'Id is not valid').isMongoId(),
+    check('id').custom(isUserIdExist),
+    check('role').custom(isValidRole),
+    validateFields
+  ],
+  updateUser
+)
+
+router.delete(
+  '/:id',
+  [
+    check('id', 'Id is not valid').isMongoId(),
+    check('id').custom(isUserIdExist),
+    validateFields
+  ],
+  deleteUser
+)
 
 export default router

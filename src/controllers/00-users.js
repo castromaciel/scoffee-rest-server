@@ -53,8 +53,14 @@ export const createUser = async (req = request, res = response) => {
   }
 }
 
-export const deleteUser = (req, res) => {
-  res.json('User deleted successfully')
+export const deleteUser = async (req = request, res = response) => {
+  const { id } = req.params
+
+  await User.findByIdAndUpdate(id, { status: false })
+
+  res.json({
+    message: 'User deleted successfully'
+  })
 }
 
 export const updateUser = async (req = request, res = response) => {
@@ -62,8 +68,6 @@ export const updateUser = async (req = request, res = response) => {
   const {
     _id, password, isGoogleAuthent, email, ...rest
   } = req.body
-
-  // validate id with db
 
   if (password) {
     rest.password = cryptPassword(password)
