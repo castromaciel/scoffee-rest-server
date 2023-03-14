@@ -41,11 +41,7 @@ export const createUser = async (req = request, res = response) => {
     await user.save()
     return res.json({
       message: `${username} created successfully`,
-      user: {
-        name,
-        username,
-        email
-      }
+      user
     })
   } catch (error) {
     return res.json({
