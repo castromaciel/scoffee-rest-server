@@ -28,13 +28,6 @@ export const createUser = async (req = request, res = response) => {
     name, username, email, password, role
   })
 
-  const isEmailExist = await User.findOne({ email })
-
-  if (isEmailExist) {
-    return res.status(400).json({
-      message: `Email ${email} already exists`
-    })
-  }
   user.password = cryptPassword(password)
 
   try {
