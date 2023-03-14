@@ -14,3 +14,11 @@ export const isEmailExist = async (email) => {
     throw new Error(`Email ${email} already exist`)
   }
 }
+
+export const isUserIdExist = async (id) => {
+  const userId = await User.findById(id)
+
+  if (!userId) {
+    throw new Error(`User ${id} does not exist`)
+  }
+}

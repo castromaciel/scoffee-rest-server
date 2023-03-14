@@ -2,7 +2,7 @@ import { request, response } from 'express'
 import { cryptPassword } from '../helpers/cryptPassword.js'
 import { User } from '../models/index.js'
 
-export const getUsers = (req, res) => {
+export const getUsers = (req = request, res = response) => {
   const { q: queries, username = '' } = req.query
 
   res.json({
@@ -47,6 +47,21 @@ export const deleteUser = (req, res) => {
   res.json('User deleted successfully')
 }
 
-export const updateUser = (req, res) => {
-  res.json('User updated successfully')
+export const updateUser = async (req = request, res = response) => {
+  const { id } = req.params
+  const {
+    password, isGoogleAuthent, email, ...rest
+  } = req.body
+
+  // validate id with db
+
+  if (password) {
+    rest.password = cryptPassword(password)
+  }
+  const user = await User.findByIdAndUpdate(id, rest)
+
+  res.json({
+    message: 'User updated successfully',
+    user
+  })
 }
