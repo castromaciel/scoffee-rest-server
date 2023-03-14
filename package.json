@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build": "rm -fdr dist && mkdir -p dist && cp -R node_modules src index.js dist",
+    "build:renderer": "yarn install && rm -fdr dist && mkdir -p dist && cp -R node_modules src index.js dist",
     "lint:fix": "eslint --fix ./*.js",
     "start": "node index.js",
     "dev": "nodemon index.js"
