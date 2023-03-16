@@ -1,12 +1,12 @@
 import bcryptjs from 'bcryptjs'
 import { request, response } from 'express'
+import { generateToken } from '../helpers/generateToken.js'
 import { User } from '../models/index.js'
 
 export const login = async (req = request, res = response) => {
   const { email, password } = req.body
 
   try {
-    // Verificar si el email existe y estado del usuario
     const user = await User.findOne({ email })
 
     if (!user || !user.status) {
@@ -15,7 +15,6 @@ export const login = async (req = request, res = response) => {
       })
     }
 
-    // Verificar la clave
     const validPassword = bcryptjs.compareSync(password, user.password)
     if (!validPassword) {
       return res.status(400).json({
@@ -24,9 +23,16 @@ export const login = async (req = request, res = response) => {
     }
 
     // Generar JWT
+    const authToken = await generateToken(user.id)
 
     return res.json({
-      message: 'Authenticated'
+      headers: {
+        authToken,
+        timestamp: new Date().toISOString()
+      },
+      data: {
+        user
+      }
     })
   } catch (error) {
     console.log(error)
