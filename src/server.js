@@ -1,13 +1,14 @@
 import cors from 'cors'
 import express from 'express'
 import { dbConnection } from './database/config.js'
-import { usersRoutes } from './routes/index.js'
+import { authRoutes, usersRoutes } from './routes/index.js'
 
 export class Server {
   constructor() {
     this.app = express()
     this.PORT = process.env.PORT || 8080
     this.paths = {
+      auth: '/api/auth',
       users: '/api/users'
     }
     this.connectionDb()
@@ -30,6 +31,7 @@ export class Server {
   }
 
   routes() {
+    this.app.use(this.paths.auth, authRoutes)
     this.app.use(this.paths.users, usersRoutes)
   }
 

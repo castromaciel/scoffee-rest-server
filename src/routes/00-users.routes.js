@@ -2,7 +2,7 @@ import { Router } from 'express'
 import { check } from 'express-validator'
 import {
   createUser, deleteUser, getUser, getUsers, updateUser
-} from '../controllers/index.js'
+} from '../controllers/00-users.js'
 import { isEmailExist, isUserIdExist, isValidRole } from '../database/db-validators.js'
 import { validateFields } from '../middlewares/validate-fields.js'
 
