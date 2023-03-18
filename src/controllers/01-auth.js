@@ -1,6 +1,8 @@
 import bcryptjs from 'bcryptjs'
 import { request, response } from 'express'
+import { ROLES } from '../constants/index.js'
 import { generateToken } from '../helpers/generateToken.js'
+import { googleVerify } from '../helpers/googleVerify.js'
 import { User } from '../models/index.js'
 
 export const login = async (req = request, res = response) => {
@@ -43,10 +45,54 @@ export const login = async (req = request, res = response) => {
 }
 
 export const googleAuth = async (req, res) => {
-  const { id_token: authToken } = req.body
+  const { id_token: token } = req.body
 
-  res.json({
-    authToken,
-    message: `Token ${authToken}`
-  })
+  try {
+    const { email, name, picture } = await googleVerify(token)
+
+    let user = await User.findOne({ email })
+
+    if (!user) {
+      const data = {
+        username: name,
+        name,
+        picture,
+        email,
+        password: 'asdasd',
+        role: ROLES.USER,
+        isGoogleAuthent: true
+      }
+
+      user = await User(data)
+      await user.save()
+      return res.json({
+        headers: {
+          token,
+          message: `Token ${token}`,
+          timestamp: new Date().toISOString()
+        },
+        user
+      })
+    }
+
+    if (!user.status) {
+      return res.status(401).json({
+        message: 'User blocked'
+      })
+    }
+
+    const authToken = generateToken(user.id)
+
+    return res.json({
+      headers: {
+        authToken,
+        timestamp: new Date().toISOString()
+      },
+      user
+    })
+  } catch (error) {
+    return res.status(400).json({
+      error
+    })
+  }
 }
