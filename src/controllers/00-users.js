@@ -56,10 +56,11 @@ export const createUser = async (req = request, res = response) => {
 export const deleteUser = async (req = request, res = response) => {
   const { id } = req.params
 
-  await User.findByIdAndUpdate(id, { status: false })
+  const user = await User.findByIdAndUpdate(id, { status: false })
 
   res.json({
-    message: 'User deleted successfully'
+    message: 'User deleted successfully',
+    user
   })
 }
 

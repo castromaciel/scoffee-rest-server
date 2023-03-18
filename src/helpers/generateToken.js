@@ -4,7 +4,7 @@ export const generateToken = async (uid = '') => new Promise((resolve, reject) =
   const payload = { uid }
 
   jwt.sign(payload, process.env.SECRET, {
-    expiresIn: '4h'
+    expiresIn: '10min'
   }, (error, token) => {
     if (error) {
       console.log(error)

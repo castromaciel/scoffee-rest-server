@@ -1,6 +1,7 @@
 import jwt from 'jsonwebtoken'
+import { User } from '../models/index.js'
 
-export const validateToken = (req, res, next) => {
+export const validateToken = async (req, res, next) => {
   const token = req.header('authToken')
 
   if (!token) {
@@ -14,14 +15,39 @@ export const validateToken = (req, res, next) => {
 
   try {
     const { uid } = jwt.verify(token, process.env.SECRET)
-    req.uid = uid
+    const user = await User.findById(uid)
+
+    // verify if uid has status true
+
+    if (!user) {
+      return res.status(401).json({
+        headers: {
+          authToken: null,
+          timestamp: new Date().toISOString(),
+          message: 'Unauthorized access'
+        }
+      })
+    }
+
+    if (!user.status) {
+      return res.status(401).json({
+        headers: {
+          authToken: null,
+          timestamp: new Date().toISOString(),
+          message: 'Unauthorized access'
+        }
+      })
+    }
+
+    req.user = user
 
     return next()
   } catch (error) {
     return res.status(401).json({
       headers: {
         authToken: null,
-        timestamp: new Date().toISOString()
+        timestamp: new Date().toISOString(),
+        message: 'Unauthorized access'
       }
     })
   }
