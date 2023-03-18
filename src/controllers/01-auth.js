@@ -41,3 +41,12 @@ export const login = async (req = request, res = response) => {
     })
   }
 }
+
+export const googleAuth = async (req, res) => {
+  const { id_token: authToken } = req.body
+
+  res.json({
+    authToken,
+    message: `Token ${authToken}`
+  })
+}
