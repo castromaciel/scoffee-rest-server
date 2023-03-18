@@ -17,8 +17,6 @@ export const validateToken = async (req, res, next) => {
     const { uid } = jwt.verify(token, process.env.SECRET)
     const user = await User.findById(uid)
 
-    // verify if uid has status true
-
     if (!user) {
       return res.status(401).json({
         headers: {

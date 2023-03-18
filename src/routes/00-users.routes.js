@@ -5,6 +5,7 @@ import {
 } from '../controllers/00-users.js'
 import { isEmailExist, isUserIdExist, isValidRole } from '../database/db-validators.js'
 import { validateFields } from '../middlewares/validate-fields.js'
+import { validateRole } from '../middlewares/validate-roles.js'
 import { validateToken } from '../middlewares/validate-token.js'
 
 const router = Router()
@@ -40,6 +41,7 @@ router.delete(
   '/:id',
   [
     validateToken,
+    validateRole,
     check('id', 'Id is not valid').isMongoId(),
     check('id').custom(isUserIdExist),
     validateFields
