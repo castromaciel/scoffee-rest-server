@@ -5,9 +5,7 @@ import {
   createUser, deleteUser, getUser, getUsers, updateUser
 } from '../controllers/00-users.js'
 import { isEmailExist, isUserIdExist, isValidRole } from '../database/db-validators.js'
-import { validateFields } from '../middlewares/validate-fields.js'
-import { hasRoles } from '../middlewares/validate-roles.js'
-import { validateToken } from '../middlewares/validate-token.js'
+import { hasRoles, validateFields, validateToken } from '../middlewares/index.js'
 
 const router = Router()
 
