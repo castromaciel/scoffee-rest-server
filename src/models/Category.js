@@ -3,7 +3,8 @@ import { model, Schema } from 'mongoose'
 const CategorySchema = new Schema({
   name: {
     type: String,
-    required: [true, 'Name is requireds']
+    required: [true, 'Name is requireds'],
+    unique: true
   },
   status: {
     type: Boolean,
