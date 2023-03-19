@@ -1,2 +1,3 @@
-export { default as Role } from './Role.js'
-export { default as User } from './Users.js'
+export { default as Category } from './Category'
+export { default as Role } from './Role'
+export { default as Users } from './Users'
