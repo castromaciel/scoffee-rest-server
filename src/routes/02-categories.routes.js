@@ -1,10 +1,11 @@
 import { Router } from 'express'
 import { check } from 'express-validator'
+import { ROLES } from '../constants/index.js'
 import {
-  createCategory, getCategories, getCategory, updateCategory
+  createCategory, deleteCategory, getCategories, getCategory, updateCategory
 } from '../controllers/02-categories.js'
 import { existCategory, isCategoryIdExist } from '../database/db-validators.js'
-import { validateFields, validateToken } from '../middlewares/index.js'
+import { hasRoles, validateFields, validateToken } from '../middlewares/index.js'
 
 const router = Router()
 
@@ -44,8 +45,15 @@ router.put(
   updateCategory
 )
 
-router.delete('/', (req, res) => {
-  res.json('DELETE')
-})
+router.delete(
+  '/:id',
+  [
+    validateToken,
+    hasRoles(ROLES.ADMIN),
+    check('id', 'Id is not valid').isMongoId(),
+    check('id').custom(isCategoryIdExist)
+  ],
+  deleteCategory
+)
 
 export default router
