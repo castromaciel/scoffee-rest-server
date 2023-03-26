@@ -26,6 +26,14 @@ export const validateRole = (req, res, next) => {
   return next()
 }
 
+/**
+ * Validate the role of an user, returning next step
+ * @param roles Roles of the user
+ * @example
+ * hasRoles('ADMIN_ROLE')
+ * @example
+ * hasRoles('ADMIN_ROLE', 'USER_ROLE')
+ */
 export const hasRoles = (...roles) => (req, res, next) => {
   const authToken = req.header('authToken')
   if (!req.user) {
