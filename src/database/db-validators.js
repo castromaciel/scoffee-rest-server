@@ -33,7 +33,7 @@ export const existCategory = async (name) => {
 }
 
 export const isCategoryIdExist = async (id) => {
-  const categoryId = await User.findById(id)
+  const categoryId = await Category.findById(id)
 
   if (!categoryId) {
     throw new Error(`Category ${id} does not exist`)

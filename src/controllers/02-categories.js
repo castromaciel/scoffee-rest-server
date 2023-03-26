@@ -10,7 +10,7 @@ export const getCategories = async (req, res) => {
   const [total, categories] = await Promise.all([
     Category.count(),
     Category.find(queryFilter)
-      .populate('user', ['name', 'username'])
+      .populate('user', ['name', 'username', 'email'])
       .skip(Number(from))
       .limit(Number(limit))
   ])
@@ -29,7 +29,7 @@ export const getCategories = async (req, res) => {
 export const getCategory = async (req, res) => {
   const { id } = req.params
   const category = await Category.findById(id)
-    .populate('user', ['name', 'username'], User)
+    .populate('user', ['name', 'username', 'email'], User)
 
   if (!category) {
     return res.status(404).json({
@@ -85,11 +85,16 @@ export const createCategory = async (req = request, res = response) => {
 export const updateCategory = async (req, res) => {
   const { id } = req.params
   const {
-    _id, status, ...rest
+    _id, status, user, ...data
   } = req.body
 
-  const category = await Category.findByIdAndUpdate(id, rest)
-    .populate('user', ['name', 'username', 'email'], User)
+  const { _id: uid } = req.user
+
+  data.name = data.name.toUpperCase()
+  data.user = uid
+
+  const category = await Category.findByIdAndUpdate(id, data, { new: true })
+    .populate('user', ['name', 'username', 'email'])
 
   return res.status(200).json({
     headers: {

@@ -13,7 +13,9 @@ router.get('/', getCategories)
 router.get(
   '/:id',
   [
-    check('id', 'Id is not valid').isMongoId()
+    check('id', 'Id is not valid').isMongoId(),
+    check('id').custom(isCategoryIdExist),
+    validateFields
   ],
   getCategory
 )
@@ -32,8 +34,12 @@ router.post(
 router.put(
   '/:id',
   [
+    validateToken,
+    check('name', 'Name is required').not().isEmpty(),
+    check('name').custom(existCategory),
     check('id', 'Id is not valid').isMongoId(),
-    check('id').custom(isCategoryIdExist)
+    check('id').custom(isCategoryIdExist),
+    validateFields
   ],
   updateCategory
 )
