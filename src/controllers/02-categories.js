@@ -2,7 +2,7 @@ import { request, response } from 'express'
 import { Category, User } from '../models/index.js'
 
 export const getCategories = async (req, res) => {
-  const { limit = 20 } = req.query
+  const { limit = 20, from = 0 } = req.query
   const queryFilter = {
     status: true
   }
@@ -10,7 +10,8 @@ export const getCategories = async (req, res) => {
   const [total, categories] = await Promise.all([
     Category.count(),
     Category.find(queryFilter)
-      .populate('user', ['name', 'username', 'email'], User)
+      .populate('user', ['name', 'username'])
+      .skip(Number(from))
       .limit(Number(limit))
   ])
 
