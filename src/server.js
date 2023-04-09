@@ -1,7 +1,9 @@
 import cors from 'cors'
 import express from 'express'
 import { dbConnection } from './database/config.js'
-import { authRoutes, categoriesRoutes, usersRoutes } from './routes/index.js'
+import {
+  authRoutes, categoriesRoutes, productsRoutes, usersRoutes
+} from './routes/index.js'
 
 export class Server {
   constructor() {
@@ -10,7 +12,8 @@ export class Server {
     this.paths = {
       auth: '/api/auth',
       users: '/api/users',
-      categories: '/api/categories'
+      categories: '/api/categories',
+      products: '/api/products'
     }
 
     this.connectionDb()
@@ -36,6 +39,7 @@ export class Server {
     this.app.use(this.paths.auth, authRoutes)
     this.app.use(this.paths.users, usersRoutes)
     this.app.use(this.paths.categories, categoriesRoutes)
+    this.app.use(this.paths.products, productsRoutes)
   }
 
   listen() {
