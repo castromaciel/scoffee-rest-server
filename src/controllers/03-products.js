@@ -57,8 +57,9 @@ export const getProduct = async (req, res) => {
 
 export const createProduct = async (req, res) => {
   const { status, user, ...body } = req.body
+  const name = body.name.toUpperCase()
 
-  const productDb = await Product.findOne({ name: body.name })
+  const productDb = await Product.findOne({ name })
 
   if (productDb) {
     return res.status(400).json({
@@ -72,7 +73,7 @@ export const createProduct = async (req, res) => {
 
   const data = {
     ...body,
-    name: body.name.toUpperCase(),
+    name,
     user: uid
   }
 
@@ -83,7 +84,8 @@ export const createProduct = async (req, res) => {
     headers: {
       status: 'success',
       message: `Product '${body.name}', created successfully`
-    }
+    },
+    product
   })
 }
 
