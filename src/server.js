@@ -2,7 +2,7 @@ import cors from 'cors'
 import express from 'express'
 import { dbConnection } from './database/config.js'
 import {
-  authRoutes, categoriesRoutes, productsRoutes, usersRoutes
+  authRoutes, categoriesRoutes, productsRoutes, searchRoutes, usersRoutes
 } from './routes/index.js'
 
 export class Server {
@@ -13,7 +13,8 @@ export class Server {
       auth: '/api/auth',
       users: '/api/users',
       categories: '/api/categories',
-      products: '/api/products'
+      products: '/api/products',
+      search: '/api/search'
     }
 
     this.connectionDb()
@@ -40,6 +41,7 @@ export class Server {
     this.app.use(this.paths.users, usersRoutes)
     this.app.use(this.paths.categories, categoriesRoutes)
     this.app.use(this.paths.products, productsRoutes)
+    this.app.use(this.paths.search, searchRoutes)
   }
 
   listen() {
