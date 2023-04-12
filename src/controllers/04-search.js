@@ -20,9 +20,23 @@ const searchUsers = async (term = '', res = response) => {
     })
   }
 
-  return res.status(404).json({
-    message: 'Empty collection',
-    results: []
+  const regexp = new RegExp(term, 'i')
+
+  const users = await User.find({
+    $or: [
+      { name: regexp },
+      { email: regexp },
+      { username: regexp }
+    ],
+    $and: [
+      { status: true }
+    ]
+  })
+
+  return res.json({
+    results: {
+      users: users || []
+    }
   })
 }
 
