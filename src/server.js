@@ -1,5 +1,6 @@
 import cors from 'cors'
 import express from 'express'
+import { API_PATHS } from './constants/index.js'
 import { dbConnection } from './database/config.js'
 import {
   authRoutes, categoriesRoutes, productsRoutes, searchRoutes, usersRoutes
@@ -9,13 +10,7 @@ export class Server {
   constructor() {
     this.app = express()
     this.PORT = process.env.PORT || 8080
-    this.paths = {
-      auth: '/api/auth',
-      users: '/api/users',
-      categories: '/api/categories',
-      products: '/api/products',
-      search: '/api/search'
-    }
+    this.paths = API_PATHS
 
     this.connectionDb()
 
